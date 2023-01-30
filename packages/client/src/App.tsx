@@ -2,17 +2,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { httpBatchLink } from "@trpc/client";
 import { useState } from "react";
 import { trpc } from "./utils/trpc";
-import "./App.css";
-
-function Sample() {
-  const hello = trpc.getUser.useQuery();
-  if (!hello.data) return <div>Loading...</div>;
-  return (
-    <div>
-      <p>{hello.data.name}</p>
-    </div>
-  );
-}
+import { MantineProvider, Text } from "@mantine/core";
+import { Login } from "./components/Login";
 
 function App() {
   const [queryClient] = useState(() => new QueryClient());
@@ -28,7 +19,9 @@ function App() {
   return (
     <trpc.Provider client={trpcClient} queryClient={queryClient}>
       <QueryClientProvider client={queryClient}>
-        <Sample />
+        <MantineProvider withGlobalStyles withNormalizeCSS>
+          <Login />
+        </MantineProvider>
       </QueryClientProvider>
     </trpc.Provider>
   );
