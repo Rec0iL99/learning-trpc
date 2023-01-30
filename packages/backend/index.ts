@@ -1,6 +1,7 @@
 import { inferAsyncReturnType, initTRPC } from "@trpc/server";
 import * as trpcExpress from "@trpc/server/adapters/express";
 import express from "express";
+import cors from "cors";
 
 const createContext = ({
   req,
@@ -41,6 +42,13 @@ export type AppRouter = typeof appRouter;
 async function main() {
   // express implementation
   const app = express();
+
+  app.use(
+    cors({
+      origin: ["http://localhost:5173"],
+      credentials: true,
+    })
+  );
 
   app.use((req, _res, next) => {
     // request logger
